@@ -1,0 +1,8 @@
+{
+  "alias": "code-surfer.now.sh",
+  "public": true,
+  "type": "docker",
+  "features": {
+    "cloud": "v2"
+  }
+}
