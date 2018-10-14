@@ -10,8 +10,23 @@ const server = express();
 server
   .disable("x-powered-by")
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  // .get("/oembed/*", (req, res) => {})
-  .get("/*", (req, res) => {
+  .get("/oembed", (req, res) => {
+    res.status(200).set("Content-Type", "application/json").send(`
+    {
+      "version": "1.0",
+      "type": "rich",
+      "provider_name": "Code Surfer",
+      "provider_url": "https://code-surfer.now.sh/",
+      "title": "Code Surfer",
+      "author_name": "",
+      "author_url": "",
+      "width": 480,
+      "height": 270,
+      "html": "<iframe src=\"https://code-surfer.now.sh/\" height=\"270.0\" width=\"480\" frameborder=\"0\" scrolling=\"no\"></iframe>"
+    }    
+    `);
+  })
+  .get("/", (req, res) => {
     const markup = inline(renderToStaticMarkup(<App />));
     res.status(200).send(
       `<!doctype html>
