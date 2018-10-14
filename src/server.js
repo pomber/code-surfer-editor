@@ -61,7 +61,7 @@ const getCodeSurfer = async (req, res) => {
   const gistId = req.url.split("/").pop();
   const gist = await getGist(gistId);
   const code = Object.values(gist.files)[0].content;
-  const markup = inline(renderToStaticMarkup(<App code={code} />));
+  const markup = inline(renderToStaticMarkup(<App code={code} showNumbers />));
   const fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
   const html = printHtml(fullUrl, markup);
   res.status(200).send(html);

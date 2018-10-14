@@ -2,7 +2,7 @@ import React from "react";
 import CodeSurfer from "code-surfer";
 import prismTheme from "prism-react-renderer/themes/duotoneLight";
 
-const App = ({ code }) => (
+const App = ({ ...props }) => (
   <div
     style={{
       height: "100%",
@@ -16,12 +16,7 @@ const App = ({ code }) => (
     }}
   >
     <div style={{ flex: 1 }} />
-    <CodeSurfer
-      code={code}
-      showNumbers
-      step={{ lines: [2] }}
-      theme={prismTheme}
-    />
+    <CodeSurfer theme={prismTheme} {...props} />
     <div style={{ flex: 1 }} />
     <div
       style={{
