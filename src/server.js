@@ -51,7 +51,9 @@ const getOembed = async (req, res) => {
       author_url: gist.owner.html_url,
       width: 700,
       height,
-      html: `<iframe src="https://code-surfer.now.sh/" height="${height}" width="700" frameborder="0" scrolling="no"></iframe>`
+      html: `<iframe src="${
+        params.url
+      }" height="${height}" width="700" frameborder="0" scrolling="no"></iframe>`
     });
 };
 
