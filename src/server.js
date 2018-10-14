@@ -3,15 +3,12 @@ import React from "react";
 import express from "express";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import inline from "glamor/inline";
+import url from "url";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
-const server = express();
-server
-  .disable("x-powered-by")
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get("/oembed", (req, res) => {
-    res.status(200).set("Content-Type", "application/json").send(`
+const getOembed = (req, res) => {
+  res.status(200).set("Content-Type", "application/json").send(`
     {
       "version": "1.0",
       "type": "rich",
@@ -24,23 +21,25 @@ server
       "height": 270,
       "html": "<iframe src=\"https://code-surfer.now.sh/\" height=\"270.0\" width=\"480\" frameborder=\"0\" scrolling=\"no\"></iframe>"
     }    
-    `);
-  })
-  .get("/", (req, res) => {
-    const markup = inline(renderToStaticMarkup(<App />));
-    res.status(200).send(
-      `<!doctype html>
+  `);
+};
+const getCodeSurfer = (req, res) => {
+  const markup = inline(renderToStaticMarkup(<App />));
+  const fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+  res.status(200).send(
+    `<!doctype html>
     <html lang="">
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta charset="utf-8" />
         <title>Code Surfer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="alternate" type="application/json+oembed"
-          href="https://code-surfer.now.sh/oembed?url=${req.url}&format=json"
-          title="Code Surfer oEmbed" />
-        <link rel="alternate" type="text/xml+oembed"
-          href="https://code-surfer.now.sh/oembed?url=${req.url}&format=xml"
+        <link 
+          href="https://code-surfer.now.sh/oembed?url=${encodeURIComponent(
+            fullUrl
+          )}" 
+          rel="alternate" 
+          type="application/json+oembed"          
           title="Code Surfer oEmbed" />
         <style>
           html, body, #root { 
@@ -49,22 +48,27 @@ server
             margin: 0;
           }
         </style>
-        ${
-          "" && assets.client.css
+        ${"" &&
+          (assets.client.css
             ? `<link rel="stylesheet" href="${assets.client.css}">`
-            : ""
-        }
-        ${
-          "" && process.env.NODE_ENV === "production"
+            : "")}
+        ${"" &&
+          (process.env.NODE_ENV === "production"
             ? `<script src="${assets.client.js}" defer></script>`
-            : `<script src="${assets.client.js}" defer crossorigin></script>`
-        }
+            : `<script src="${assets.client.js}" defer crossorigin></script>`)}
     </head>
     <body>
         <div id="root">${markup}</div>
     </body>
 </html>`
-    );
-  });
+  );
+};
+
+const server = express();
+server
+  .disable("x-powered-by")
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .get("/oembed", getOembed)
+  .get("/", getCodeSurfer);
 
 export default server;
