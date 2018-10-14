@@ -26,7 +26,7 @@ const App = () => (
 console.log();
 `;
 
-const guessHeight = code => Math.round(code.split("\n").length * 14.5 + 45);
+const guessHeight = code => Math.round(code.split("\n").length * 15.5 + 45);
 
 const getOembed = async (req, res) => {
   const params = url.parse(req.url, true).query || { url: "" };
