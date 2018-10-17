@@ -10,24 +10,13 @@ import fetch from "node-fetch";
 // import Editor from "./editor";
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
-const getGist = async gistId => {
-  const gistResponse = await fetch(`https://api.github.com/gists/${gistId}`);
-  const gistData = await gistResponse.json();
-  return gistData;
-};
-
-const guessHeight = code => Math.round(code.split("\n").length * 15.5 + 45);
-
 const getOembed = async (req, res) => {
   const params = url.parse(req.url, true).query || { url: "" };
-  console.log(params.url);
   const stateHash = params.url.split("/").pop();
-  console.log(stateHash);
 
   const state = JSON.parse(
     LZString.decompressFromEncodedURIComponent(stateHash)
   );
-  console.log(state);
 
   res
     .status(200)
