@@ -1,4 +1,4 @@
-export default (url, markup, assets) => `<!doctype html>
+export default (protocolAndHost, url, markup, assets) => `<!doctype html>
 <html lang="">
 
 <head>
@@ -7,7 +7,7 @@ export default (url, markup, assets) => `<!doctype html>
   <title>Code Surfer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link 
-    href="https://code-surfer.now.sh/oembed?url=${encodeURIComponent(url)}" 
+    href="${protocolAndHost}/oembed?url=${encodeURIComponent(url)}" 
     rel="alternate"
     type="application/json+oembed" 
     title="Code Surfer oEmbed" />

@@ -20,8 +20,14 @@ const guessHeight = code => Math.round(code.split("\n").length * 15.5 + 45);
 
 const getOembed = async (req, res) => {
   const params = url.parse(req.url, true).query || { url: "" };
+  console.log(params.url);
   const stateHash = params.url.split("/").pop();
-  const state = LZString.decompressFromEncodedURIComponent(stateHash);
+  console.log(stateHash);
+
+  const state = JSON.parse(
+    LZString.decompressFromEncodedURIComponent(stateHash)
+  );
+  console.log(state);
 
   res
     .status(200)
@@ -34,9 +40,9 @@ const getOembed = async (req, res) => {
       title: "Code Surfer",
       width: state.width,
       height: state.height + 50,
-      html: `<iframe src="${
-        params.url
-      }" height="${height}" width="700" frameborder="0" scrolling="no"></iframe>`
+      html: `<iframe src="${params.url}" height="${state.height + 50}" width="${
+        state.width
+      }" frameborder="0" scrolling="no"></iframe>`
     });
 };
 
@@ -45,15 +51,17 @@ const getCodeSurfer = (req, res) => {
   // const code = Object.values(gist.files)[0].content;
   // const markup = inline(renderToStaticMarkup(<App code={code} showNumbers />));
   // const fullUrl = req.protocol + "://" + req.get("host") + "/i/" + stateHash;
-  const fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
-  const html = printHtml(fullUrl, "", assets);
+  const protocolAndHost = req.protocol + "://" + req.get("host");
+  const fullUrl = protocolAndHost + req.originalUrl;
+  const html = printHtml(protocolAndHost, fullUrl, "", assets);
   res.status(200).send(html);
 };
 
 const getEditor = (req, res) => {
   // const markup = inline(renderToStaticMarkup(<Editor />));
-  const fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
-  const html = printHtml(fullUrl, "", assets);
+  const protocolAndHost = req.protocol + "://" + req.get("host");
+  const fullUrl = protocolAndHost + req.originalUrl;
+  const html = printHtml(protocolAndHost, fullUrl, "", assets);
   res.status(200).send(html);
 };
 
