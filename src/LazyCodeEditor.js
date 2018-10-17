@@ -5,7 +5,7 @@ import React, { lazy, unstable_Suspense as Suspense } from "react";
 const CodeEditor = lazy(() => import("./CodeEditor"));
 
 export default props => (
-  <Suspense placeholder={<textarea value={props.value} />}>
+  <Suspense placeholder={<textarea style={{ height: "100%" }} />}>
     <CodeEditor {...props} />
   </Suspense>
 );

@@ -7,7 +7,8 @@ import url from "url";
 import printHtml from "./page-template";
 import LZString from "lz-string";
 import fetch from "node-fetch";
-// import Editor from "./editor";
+import Editor from "./editor";
+import { readStateFromPath } from "./state-parser";
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const getOembed = async (req, res) => {
@@ -47,10 +48,11 @@ const getCodeSurfer = (req, res) => {
 };
 
 const getEditor = (req, res) => {
-  // const markup = inline(renderToStaticMarkup(<Editor />));
+  const state = readStateFromPath(req.originalUrl);
+  const markup = inline(renderToString(<Editor initialState={state} />));
   const protocolAndHost = req.protocol + "://" + req.get("host");
   const fullUrl = protocolAndHost + req.originalUrl;
-  const html = printHtml(protocolAndHost, fullUrl, "", assets);
+  const html = printHtml(protocolAndHost, fullUrl, markup, assets);
   res.status(200).send(html);
 };
 

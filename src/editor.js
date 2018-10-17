@@ -1,4 +1,3 @@
-import LZString from "lz-string";
 import React from "react";
 import "./App.css";
 import CodeSurferContainer from "./code-surfer-container";
@@ -28,75 +27,12 @@ const InfoIcon = () => (
   </svg>
 );
 
-function read() {
-  const hash = window.document.location.pathname.slice(1);
-  if (!hash) {
-    return null;
-  }
-
-  const decode = LZString.decompressFromEncodedURIComponent;
-
-  try {
-    return JSON.parse(decode(hash));
-  } catch (_) {
-    return null;
-  }
+function replace() {
+  //TODO
 }
-
-function replace(state) {
-  const hash = LZString.compressToEncodedURIComponent(JSON.stringify(state));
-  if (
-    typeof URL === "function" &&
-    typeof window.history === "object" &&
-    typeof window.history.replaceState === "function"
-  ) {
-    const url = new URL(window.location);
-    url.pathname = hash;
-    window.history.replaceState(null, null, url);
-  } else {
-    window.location.pathname = hash;
-  }
-}
-
-const defaultCode = `const ENOUGH_TIME = 1; // milliseconds
-
-let workQueue = [];
-let nextUnitOfWork = null;
-
-function schedule(task) {
-  workQueue.push(task);
-  requestIdleCallback(performWork);
-}
-
-function performWork(deadline) {
-  if (!nextUnitOfWork) {
-    nextUnitOfWork = workQueue.shift();
-  }
-
-  while (nextUnitOfWork && deadline.timeRemaining() > ENOUGH_TIME) {
-    nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
-  }
-
-  if (nextUnitOfWork || workQueue.length > 0) {
-    requestIdleCallback(performWork);
-  }
-}`;
-
-const defaultSteps = `* > all
-4[1:3, 6:9] > Tokens
-9, 12 > lines
-2:5 > range`;
 
 class Editor extends React.Component {
-  state = read() || {
-    code: defaultCode,
-    showNumbers: false,
-    lang: "jsx",
-    themeName: "vsDarkPlus",
-    steps: defaultSteps,
-    width: 700,
-    height: 500
-  };
+  state = this.props.initialState;
   render() {
     const theme = themes.find(theme => theme.name === this.state.themeName);
     return (
