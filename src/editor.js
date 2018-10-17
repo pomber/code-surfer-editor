@@ -4,18 +4,8 @@ import "./App.css";
 import CodeSurferContainer from "./code-surfer-container";
 import { Prism } from "prism-react-renderer";
 import Color from "color";
-// import CodeMirror from "react-codemirror";
-import { Controlled as CodeMirror } from "react-codemirror2";
-import "codemirror/mode/javascript/javascript";
 
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/material.css";
-
-let options = {
-  theme: "material",
-  lineNumbers: true,
-  mode: "javascript"
-};
+import CodeEditor from "./LazyCodeEditor";
 
 const req = require.context("prism-react-renderer/themes", false, /\.js$/);
 const themes = req
@@ -37,10 +27,6 @@ const InfoIcon = () => (
     <path d="M1152 1376v-160q0-14-9-23t-23-9h-96v-512q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v160q0 14 9 23t23 9h96v320h-96q-14 0-23 9t-9 23v160q0 14 9 23t23 9h448q14 0 23-9t9-23zm-128-896v-160q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v160q0 14 9 23t23 9h192q14 0 23-9t9-23zm640 416q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z" />
   </svg>
 );
-
-function hash(state) {
-  return LZString.compressToEncodedURIComponent(JSON.stringify(state));
-}
 
 function read() {
   const hash = window.document.location.pathname.slice(1);
@@ -112,7 +98,6 @@ class Editor extends React.Component {
     height: 500
   };
   render() {
-    console.log(this.state);
     const theme = themes.find(theme => theme.name === this.state.themeName);
     return (
       <div
@@ -154,12 +139,11 @@ class Editor extends React.Component {
             </label>
           </div>
           <div style={{ flex: 1, overflow: "auto" }}>
-            <CodeMirror
+            <CodeEditor
               value={this.state.code}
-              onBeforeChange={(editor, data, code) =>
+              onChange={code =>
                 this.setState({ code }, () => replace(this.state))
               }
-              options={options}
             />
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -167,10 +151,9 @@ class Editor extends React.Component {
             <InfoIcon />
           </div>
           <div style={{ height: "160px", overflow: "auto" }}>
-            <CodeMirror
-              options={{ ...options, lineNumbers: true }}
+            <CodeEditor
               value={this.state.steps}
-              onBeforeChange={(editor, data, steps) =>
+              onChange={steps =>
                 this.setState({ steps }, () => replace(this.state))
               }
             />

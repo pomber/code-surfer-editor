@@ -1,6 +1,6 @@
 import Editor from "./editor";
 import React from "react";
-import { hydrate } from "react-dom";
+import { hydrate, unstable_createRoot } from "react-dom";
 import LZString from "lz-string";
 import CodeSurferContainer from "./code-surfer-container";
 
@@ -24,11 +24,12 @@ function read() {
   }
 }
 
+const root = unstable_createRoot(document.getElementById("root"));
+
 if (window.location.pathname.startsWith("/i/")) {
   const state = read();
-  console.log(state);
   const theme = themes.find(theme => theme.name === state.themeName);
-  hydrate(
+  const app = (
     <CodeSurferContainer
       code={state.code}
       showNumbers={state.showNumbers}
@@ -38,11 +39,12 @@ if (window.location.pathname.startsWith("/i/")) {
       steps={state.steps}
       width={state.width}
       height={state.height}
-    />,
-    document.getElementById("root")
+    />
   );
+  root.render(app);
 } else {
-  hydrate(<Editor />, document.getElementById("root"));
+  const app = <Editor />;
+  root.render(app);
 }
 
 if (module.hot) {
