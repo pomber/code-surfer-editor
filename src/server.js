@@ -6,25 +6,14 @@ import inline from "glamor/inline";
 import url from "url";
 import printHtml from "./page-template";
 import fetch from "node-fetch";
-
+// import Editor from "./editor";
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
-const urlScheme = "https://code-surfer.now.sh/g/*";
 const getGist = async gistId => {
   const gistResponse = await fetch(`https://api.github.com/gists/${gistId}`);
   const gistData = await gistResponse.json();
   return gistData;
 };
-
-const code = `
-const App = () => (
-  <div style={{ height: 100 }}>
-    <CodeSurfer code={code} />
-  </div>
-);
-
-console.log();
-`;
 
 const guessHeight = code => Math.round(code.split("\n").length * 15.5 + 45);
 
@@ -67,11 +56,19 @@ const getCodeSurfer = async (req, res) => {
   res.status(200).send(html);
 };
 
+const getEditor = (req, res) => {
+  // const markup = inline(renderToStaticMarkup(<Editor />));
+  const fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+  const html = printHtml(fullUrl, "", assets);
+  res.status(200).send(html);
+};
+
 const server = express();
 server
   .disable("x-powered-by")
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get("/oembed", getOembed)
-  .get("/g/*", getCodeSurfer);
+  .get("/g/*", getCodeSurfer)
+  .get("/", getEditor);
 
 export default server;

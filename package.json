@@ -11,10 +11,15 @@
   },
   "dependencies": {
     "code-surfer": "0.5.3",
+    "codemirror": "^5.40.2",
+    "color": "^3.1.0",
     "express": "^4.16.4",
+    "lz-string": "^1.4.4",
+    "memoize-one": "^4.0.2",
     "node-fetch": "^2.2.0",
     "razzle": "^2.4.0",
     "react": "^16.5.2",
+    "react-codemirror2": "^5.1.0",
     "react-dom": "^16.5.2"
   }
 }

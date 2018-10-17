@@ -1,4 +1,4 @@
-export default (url, markup) => `<!doctype html>
+export default (url, markup, assets) => `<!doctype html>
 <html lang="">
 
 <head>
@@ -20,6 +20,16 @@ export default (url, markup) => `<!doctype html>
       margin: 0;
     }
   </style>
+  ${
+    assets.client.css
+      ? `<link rel="stylesheet" href="${assets.client.css}">`
+      : ""
+  }
+  ${
+    process.env.NODE_ENV === "production"
+      ? `<script src="${assets.client.js}" defer></script>`
+      : `<script src="${assets.client.js}" defer crossorigin></script>`
+  }
 </head>
 
 <body>
