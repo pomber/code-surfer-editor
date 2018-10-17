@@ -13,8 +13,6 @@ function encode(state) {
 
 export function readStateFromPath(pathname) {
   const hash = pathname.split("/").pop();
-  console.log(pathname, hash);
-  console.log(!!hash);
   return hash ? decode(hash) : defaultState;
 }
 
