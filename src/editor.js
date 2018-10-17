@@ -43,16 +43,12 @@ function hash(state) {
 }
 
 function read() {
-  const hash = window.document.location.hash.slice(1);
+  const hash = window.document.location.pathname.slice(1);
   if (!hash) {
     return null;
   }
 
-  // backwards support for old json encoded URIComponent
-  const decode =
-    hash.indexOf("%7B%22") !== -1
-      ? decodeURIComponent
-      : LZString.decompressFromEncodedURIComponent;
+  const decode = LZString.decompressFromEncodedURIComponent;
 
   try {
     return JSON.parse(decode(hash));
@@ -69,10 +65,10 @@ function replace(state) {
     typeof window.history.replaceState === "function"
   ) {
     const url = new URL(window.location);
-    url.hash = hash;
+    url.pathname = hash;
     window.history.replaceState(null, null, url);
   } else {
-    window.location.hash = hash;
+    window.location.pathname = hash;
   }
 }
 

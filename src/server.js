@@ -5,6 +5,7 @@ import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import inline from "glamor/inline";
 import url from "url";
 import printHtml from "./page-template";
+import LZString from "lz-string";
 import fetch from "node-fetch";
 // import Editor from "./editor";
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -19,14 +20,9 @@ const guessHeight = code => Math.round(code.split("\n").length * 15.5 + 45);
 
 const getOembed = async (req, res) => {
   const params = url.parse(req.url, true).query || { url: "" };
-  const gistId = params.url.split("/").pop();
-  const gist = await getGist(gistId);
-  console.log(params);
-  console.log(gistId);
-  console.log(gist);
+  const stateHash = params.url.split("/").pop();
+  const state = LZString.decompressFromEncodedURIComponent(stateHash);
 
-  const code = Object.values(gist.files)[0].content;
-  const height = guessHeight(code);
   res
     .status(200)
     .set("Content-Type", "application/json")
@@ -36,23 +32,21 @@ const getOembed = async (req, res) => {
       provider_name: "Code Surfer",
       provider_url: "https://code-surfer.now.sh/",
       title: "Code Surfer",
-      author_name: gist.owner.login,
-      author_url: gist.owner.html_url,
-      width: 700,
-      height,
+      width: state.width,
+      height: state.height + 50,
       html: `<iframe src="${
         params.url
       }" height="${height}" width="700" frameborder="0" scrolling="no"></iframe>`
     });
 };
 
-const getCodeSurfer = async (req, res) => {
-  const gistId = req.url.split("/").pop();
-  const gist = await getGist(gistId);
-  const code = Object.values(gist.files)[0].content;
-  const markup = inline(renderToStaticMarkup(<App code={code} showNumbers />));
+const getCodeSurfer = (req, res) => {
+  // const stateHash = req.url.split("/").pop();
+  // const code = Object.values(gist.files)[0].content;
+  // const markup = inline(renderToStaticMarkup(<App code={code} showNumbers />));
+  // const fullUrl = req.protocol + "://" + req.get("host") + "/i/" + stateHash;
   const fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
-  const html = printHtml(fullUrl, markup);
+  const html = printHtml(fullUrl, "", assets);
   res.status(200).send(html);
 };
 
@@ -68,7 +62,7 @@ server
   .disable("x-powered-by")
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get("/oembed", getOembed)
-  .get("/g/*", getCodeSurfer)
-  .get("/", getEditor);
+  .get("/i/*", getCodeSurfer)
+  .get("/*", getEditor);
 
 export default server;
