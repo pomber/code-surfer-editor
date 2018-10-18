@@ -1,34 +1,22 @@
 import Editor from "./editor";
 import React from "react";
-import { hydrate } from "react-dom";
-import LZString from "lz-string";
+import { unstable_createRoot } from "react-dom";
 import CodeSurferContainer from "./code-surfer-container";
+import { readStateFromPath } from "./state-parser";
 
 const req = require.context("prism-react-renderer/themes", false, /\.js$/);
 const themes = req
   .keys()
   .map(filename => ({ ...req(filename), name: filename.slice(2, -3) }));
 
-function read() {
-  const hash = window.document.location.pathname.slice(3);
-  if (!hash) {
-    return null;
-  }
-
-  const decode = LZString.decompressFromEncodedURIComponent;
-
-  try {
-    return JSON.parse(decode(hash));
-  } catch (_) {
-    return null;
-  }
-}
+const root = unstable_createRoot(document.getElementById("root"), {
+  hydrate: true
+});
 
 if (window.location.pathname.startsWith("/i/")) {
-  const state = read();
-  console.log(state);
+  const state = readStateFromPath(window.location.pathname);
   const theme = themes.find(theme => theme.name === state.themeName);
-  hydrate(
+  const app = (
     <CodeSurferContainer
       code={state.code}
       showNumbers={state.showNumbers}
@@ -38,11 +26,13 @@ if (window.location.pathname.startsWith("/i/")) {
       steps={state.steps}
       width={state.width}
       height={state.height}
-    />,
-    document.getElementById("root")
+    />
   );
+  root.render(app);
 } else {
-  hydrate(<Editor />, document.getElementById("root"));
+  const state = readStateFromPath(window.location.pathname);
+  const app = <Editor initialState={state} />;
+  root.render(app);
 }
 
 if (module.hot) {

@@ -6,28 +6,18 @@ import inline from "glamor/inline";
 import url from "url";
 import printHtml from "./page-template";
 import LZString from "lz-string";
-import fetch from "node-fetch";
-// import Editor from "./editor";
+import Editor from "./editor";
+import { readStateFromPath } from "./state-parser";
+import toIframe from "./to-iframe";
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
-
-const getGist = async gistId => {
-  const gistResponse = await fetch(`https://api.github.com/gists/${gistId}`);
-  const gistData = await gistResponse.json();
-  return gistData;
-};
-
-const guessHeight = code => Math.round(code.split("\n").length * 15.5 + 45);
 
 const getOembed = async (req, res) => {
   const params = url.parse(req.url, true).query || { url: "" };
-  console.log(params.url);
   const stateHash = params.url.split("/").pop();
-  console.log(stateHash);
 
   const state = JSON.parse(
     LZString.decompressFromEncodedURIComponent(stateHash)
   );
-  console.log(state);
 
   res
     .status(200)
@@ -39,10 +29,12 @@ const getOembed = async (req, res) => {
       provider_url: "https://code-surfer.now.sh/",
       title: "Code Surfer",
       width: state.width,
-      height: state.height + 50,
-      html: `<iframe src="${params.url}" height="${state.height + 50}" width="${
-        state.width
-      }" frameborder="0" scrolling="no"></iframe>`
+      height: state.height,
+      html: toIframe({
+        url: params.url,
+        height: state.height,
+        width: state.width
+      })
     });
 };
 
@@ -58,11 +50,30 @@ const getCodeSurfer = (req, res) => {
 };
 
 const getEditor = (req, res) => {
-  // const markup = inline(renderToStaticMarkup(<Editor />));
+  const state = readStateFromPath(req.originalUrl);
+  const markup = inline(renderToString(<Editor initialState={state} />));
   const protocolAndHost = req.protocol + "://" + req.get("host");
   const fullUrl = protocolAndHost + req.originalUrl;
-  const html = printHtml(protocolAndHost, fullUrl, "", assets);
+  const html = printHtml(protocolAndHost, fullUrl, markup, assets);
   res.status(200).send(html);
+};
+
+const testIframe = (req, res) => {
+  const stateHash = req.originalUrl.split("/").pop();
+  const state = JSON.parse(
+    LZString.decompressFromEncodedURIComponent(stateHash)
+  );
+  const protocolAndHost = req.protocol + "://" + req.get("host");
+  const fullUrl = protocolAndHost + req.originalUrl;
+  res.status(200).send(`
+  <div style="display: flex; align-items: center; justify-content: center; height: 100%">
+  ${toIframe({
+    url: fullUrl.replace("/ti/", "/i/"),
+    height: state.height,
+    width: state.width
+  })}
+  </div>
+  `);
 };
 
 const server = express();
@@ -71,6 +82,7 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get("/oembed", getOembed)
   .get("/i/*", getCodeSurfer)
+  .get("/ti/*", testIframe)
   .get("/*", getEditor);
 
 export default server;

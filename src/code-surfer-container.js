@@ -1,29 +1,7 @@
 import React from "react";
 import Color from "color";
 import CodeSurfer from "code-surfer";
-
-const LeftArrow = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 1792 1792"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
-  >
-    <path d="M1427 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z" />
-  </svg>
-);
-const RightArrow = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 1792 1792"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
-  >
-    <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z" />
-  </svg>
-);
+import { LeftArrow, RightArrow } from "./icons";
 
 class CodeSurferContainer extends React.Component {
   state = {
@@ -41,14 +19,18 @@ class CodeSurferContainer extends React.Component {
         style={{
           background: theme.plain.backgroundColor,
           border: `1px solid ${Color(theme.plain.color).fade(0.5)}`,
-          borderRadius: "3px"
+          borderRadius: "3px",
+          display: "flex",
+          flexDirection: "column",
+          boxSizing: "border-box",
+          height: "100%"
         }}
       >
         <div
           style={{
-            height: height,
-            width: width,
-            padding: "2px 7px"
+            flex: 1,
+            padding: "0px 7px",
+            overflow: "hidden"
           }}
         >
           <CodeSurfer
