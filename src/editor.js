@@ -3,7 +3,7 @@ import "./App.css";
 import CodeSurferContainer from "./code-surfer-container";
 import { Prism } from "prism-react-renderer";
 import Color from "color";
-
+import { InfoIcon } from "./icons";
 import CodeEditor from "./LazyCodeEditor";
 
 const req = require.context("prism-react-renderer/themes", false, /\.js$/);
@@ -13,18 +13,6 @@ const themes = req
 
 const languages = Object.keys(Prism.languages).filter(
   key => typeof Prism.languages[key] !== "function"
-);
-
-const InfoIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 1792 1792"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
-  >
-    <path d="M1152 1376v-160q0-14-9-23t-23-9h-96v-512q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v160q0 14 9 23t23 9h96v320h-96q-14 0-23 9t-9 23v160q0 14 9 23t23 9h448q14 0 23-9t9-23zm-128-896v-160q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v160q0 14 9 23t23 9h192q14 0 23-9t9-23zm640 416q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z" />
-  </svg>
 );
 
 function replace() {
@@ -82,7 +70,13 @@ class Editor extends React.Component {
               }
             />
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              height: "34px",
+              display: "flex",
+              alignItems: "center"
+            }}
+          >
             <h3 style={{ flex: 1, margin: "6px" }}>Steps</h3>
             <InfoIcon />
           </div>
@@ -107,38 +101,16 @@ class Editor extends React.Component {
         >
           <div
             style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "8px",
-              width: "100%",
-              boxSizing: "border-box"
-            }}
-          >
-            <CodeSurferContainer
-              code={this.state.code}
-              showNumbers={this.state.showNumbers}
-              lang={this.state.lang}
-              theme={theme}
-              key={theme.name}
-              steps={this.state.steps}
-              width={this.state.width}
-              height={this.state.height}
-            />
-          </div>
-          {/* <div style={{ flex: 1 }} /> */}
-          <div
-            style={{
               display: "flex",
               justifyContent: "space-around",
+              alignItems: "center",
               width: "100%",
-              padding: "10px",
+              padding: "0 10px",
+              height: "34px",
               boxSizing: "border-box"
             }}
           >
             <label>
-              Show Numbers:
               <input
                 type="checkbox"
                 checked={this.state.showNumbers}
@@ -148,12 +120,15 @@ class Editor extends React.Component {
                   )
                 }
               />
+              Line Numbers
             </label>
             <label>
               Width:
               <input
                 type="number"
+                style={{ width: "60px" }}
                 value={this.state.width}
+                step="10"
                 onChange={e =>
                   this.setState({ width: +e.target.value }, () =>
                     replace(this.state)
@@ -165,7 +140,9 @@ class Editor extends React.Component {
               Height:
               <input
                 type="number"
+                style={{ width: "60px" }}
                 value={this.state.height}
+                step="10"
                 onChange={e =>
                   this.setState({ height: +e.target.value }, () =>
                     replace(this.state)
@@ -190,6 +167,29 @@ class Editor extends React.Component {
                 ))}
               </select>
             </label>
+            <button>Share</button>
+          </div>
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "8px",
+              width: "100%",
+              boxSizing: "border-box"
+            }}
+          >
+            <CodeSurferContainer
+              code={this.state.code}
+              showNumbers={this.state.showNumbers}
+              lang={this.state.lang}
+              theme={theme}
+              key={theme.name}
+              steps={this.state.steps}
+              width={this.state.width}
+              height={this.state.height}
+            />
           </div>
         </div>
       </div>
