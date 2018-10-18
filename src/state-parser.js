@@ -7,7 +7,7 @@ function decode(hash) {
   return JSON.parse(decompressFromEncodedURIComponent(hash));
 }
 
-function encode(state) {
+export function encode(state) {
   return compressToEncodedURIComponent(JSON.stringify(state));
 }
 
@@ -54,18 +54,3 @@ const defaultState = {
   width: 700,
   height: 500
 };
-
-// function replace(state) {
-//   const hash = LZString.compressToEncodedURIComponent(JSON.stringify(state));
-//   if (
-//     typeof URL === "function" &&
-//     typeof window.history === "object" &&
-//     typeof window.history.replaceState === "function"
-//   ) {
-//     const url = new URL(window.location);
-//     url.pathname = hash;
-//     window.history.replaceState(null, null, url);
-//   } else {
-//     window.location.pathname = hash;
-//   }
-// }

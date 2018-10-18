@@ -5,14 +5,17 @@ import Color from "color";
 import { InfoIcon, GitHubIcon, TwitterIcon, MediumIcon } from "./icons";
 import CodeEditor from "./LazyCodeEditor";
 import LanguagePicker from "./LanguagePicker";
+import { encode } from "./state-parser";
 
 const req = require.context("prism-react-renderer/themes", false, /\.js$/);
 const themes = req
   .keys()
   .map(filename => ({ ...req(filename), name: filename.slice(2, -3) }));
 
-function replace() {
-  //TODO
+function replace(state) {
+  const url = new URL(window.location);
+  url.pathname = encode(state);
+  window.history.replaceState(null, null, url);
 }
 
 const RightOptions = ({ state, change }) => (
