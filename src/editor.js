@@ -74,7 +74,9 @@ const RightOptions = ({ state, change }) => (
 
 class Editor extends React.Component {
   state = this.props.initialState;
+  change = updater => this.setState(updater, () => replace(this.state));
   render() {
+    const change = this.change;
     const theme = themes.find(theme => theme.name === this.state.themeName);
     return (
       <div
@@ -100,15 +102,13 @@ class Editor extends React.Component {
             <h2 style={{ flex: 1, margin: "6px" }}>Code</h2>
             <LanguagePicker
               value={this.state.lang}
-              onChange={lang => this.setState({ lang })}
+              onChange={lang => change({ lang })}
             />
           </div>
           <div style={{ flex: 1, overflow: "auto" }}>
             <CodeEditor
               value={this.state.code}
-              onChange={code =>
-                this.setState({ code }, () => replace(this.state))
-              }
+              onChange={code => change({ code })}
             />
           </div>
           <div
@@ -124,9 +124,7 @@ class Editor extends React.Component {
           <div style={{ height: "160px", overflow: "auto" }}>
             <CodeEditor
               value={this.state.steps}
-              onChange={steps =>
-                this.setState({ steps }, () => replace(this.state))
-              }
+              onChange={steps => change({ steps })}
             />
           </div>
         </div>
@@ -140,10 +138,7 @@ class Editor extends React.Component {
             justifyContent: "center"
           }}
         >
-          <RightOptions
-            state={this.state}
-            change={updater => this.setState(updater)}
-          />
+          <RightOptions state={this.state} change={change} />
           <div
             style={{
               flex: 1,
