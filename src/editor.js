@@ -177,7 +177,6 @@ class Editor extends React.Component {
               justifyContent: "center",
               padding: "8px",
               width: "100%",
-              zIndex: 10,
               boxSizing: "border-box"
             }}
           >
@@ -200,9 +199,15 @@ class Editor extends React.Component {
               color: Color("rgba(233, 237, 237, 1)").fade(0.4)
             }}
           >
-            <GitHubIcon style={{ padding: "4px", cursor: "pointer" }} />
+            <GitHubIcon
+              title="CodeSurfer GitHub"
+              style={{ padding: "4px", cursor: "pointer" }}
+            />
             <MediumIcon style={{ padding: "4px", cursor: "pointer" }} />
-            <TwitterIcon style={{ padding: "4px", cursor: "pointer" }} />
+            <TwitterIcon
+              title="@pomber twitter"
+              style={{ padding: "4px", cursor: "pointer" }}
+            />
           </div>
         </div>
       </div>
