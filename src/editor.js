@@ -177,6 +177,7 @@ class Editor extends React.Component {
               justifyContent: "center",
               padding: "8px",
               width: "100%",
+              zIndex: 10,
               boxSizing: "border-box"
             }}
           >

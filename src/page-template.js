@@ -4,7 +4,7 @@ export default (protocolAndHost, url, markup, assets) => `<!doctype html>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta charset="utf-8" />
-  <title>Code Surfer</title>
+  <title>Code Surfer Editor</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link 
     href="${protocolAndHost}/oembed?url=${encodeURIComponent(url)}" 
