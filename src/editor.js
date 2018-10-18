@@ -1,23 +1,76 @@
 import React from "react";
 import "./App.css";
 import CodeSurferContainer from "./code-surfer-container";
-import { Prism } from "prism-react-renderer";
 import Color from "color";
 import { InfoIcon, GitHubIcon, TwitterIcon, MediumIcon } from "./icons";
 import CodeEditor from "./LazyCodeEditor";
+import LanguagePicker from "./LanguagePicker";
 
 const req = require.context("prism-react-renderer/themes", false, /\.js$/);
 const themes = req
   .keys()
   .map(filename => ({ ...req(filename), name: filename.slice(2, -3) }));
 
-const languages = Object.keys(Prism.languages).filter(
-  key => typeof Prism.languages[key] !== "function"
-);
-
 function replace() {
   //TODO
 }
+
+const RightOptions = ({ state, change }) => (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-around",
+      alignItems: "center",
+      width: "100%",
+      padding: "0 10px",
+      height: "39.5px",
+      boxSizing: "border-box"
+    }}
+  >
+    <label>
+      <input
+        type="checkbox"
+        checked={state.showNumbers}
+        onChange={e => change({ showNumbers: e.target.checked })}
+      />
+      Line Numbers
+    </label>
+    <label>
+      Width:
+      <input
+        type="number"
+        style={{ width: "60px" }}
+        value={state.width}
+        step="10"
+        onChange={e => change({ width: +e.target.value })}
+      />
+    </label>
+    <label>
+      Height:
+      <input
+        type="number"
+        style={{ width: "60px" }}
+        value={state.height}
+        step="10"
+        onChange={e => change({ height: +e.target.value })}
+      />
+    </label>
+    <label>
+      Theme:
+      <select
+        value={state.themeName}
+        onChange={e => change({ themeName: e.target.value })}
+      >
+        {themes.map(theme => (
+          <option value={theme.name} key={theme.name}>
+            {theme.name}
+          </option>
+        ))}
+      </select>
+    </label>
+    <button>Share</button>
+  </div>
+);
 
 class Editor extends React.Component {
   state = this.props.initialState;
@@ -45,22 +98,10 @@ class Editor extends React.Component {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <h2 style={{ flex: 1, margin: "6px" }}>Code</h2>
-            <label>
-              <select
-                value={this.state.lang}
-                onChange={e =>
-                  this.setState({ lang: e.target.value }, () =>
-                    replace(this.state)
-                  )
-                }
-              >
-                {languages.map(language => (
-                  <option value={language} key={language}>
-                    {language}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <LanguagePicker
+              value={this.state.lang}
+              onChange={lang => this.setState({ lang })}
+            />
           </div>
           <div style={{ flex: 1, overflow: "auto" }}>
             <CodeEditor
@@ -99,76 +140,10 @@ class Editor extends React.Component {
             justifyContent: "center"
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-              width: "100%",
-              padding: "0 10px",
-              height: "39.5px",
-              boxSizing: "border-box"
-            }}
-          >
-            <label>
-              <input
-                type="checkbox"
-                checked={this.state.showNumbers}
-                onChange={e =>
-                  this.setState({ showNumbers: e.target.checked }, () =>
-                    replace(this.state)
-                  )
-                }
-              />
-              Line Numbers
-            </label>
-            <label>
-              Width:
-              <input
-                type="number"
-                style={{ width: "60px" }}
-                value={this.state.width}
-                step="10"
-                onChange={e =>
-                  this.setState({ width: +e.target.value }, () =>
-                    replace(this.state)
-                  )
-                }
-              />
-            </label>
-            <label>
-              Height:
-              <input
-                type="number"
-                style={{ width: "60px" }}
-                value={this.state.height}
-                step="10"
-                onChange={e =>
-                  this.setState({ height: +e.target.value }, () =>
-                    replace(this.state)
-                  )
-                }
-              />
-            </label>
-            <label>
-              Theme:
-              <select
-                value={this.state.themeName}
-                onChange={e =>
-                  this.setState({ themeName: e.target.value }, () =>
-                    replace(this.state)
-                  )
-                }
-              >
-                {themes.map(theme => (
-                  <option value={theme.name} key={theme.name}>
-                    {theme.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <button>Share</button>
-          </div>
+          <RightOptions
+            state={this.state}
+            change={updater => this.setState(updater)}
+          />
           <div
             style={{
               flex: 1,
