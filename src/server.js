@@ -6,9 +6,9 @@ import inline from "glamor/inline";
 import url from "url";
 import printHtml from "./page-template";
 import LZString from "lz-string";
-import fetch from "node-fetch";
 import Editor from "./editor";
 import { readStateFromPath } from "./state-parser";
+import toIframe from "./to-iframe";
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const getOembed = async (req, res) => {
@@ -29,10 +29,12 @@ const getOembed = async (req, res) => {
       provider_url: "https://code-surfer.now.sh/",
       title: "Code Surfer",
       width: state.width,
-      height: state.height + 50,
-      html: `<iframe src="${params.url}" height="${state.height + 50}" width="${
-        state.width
-      }" frameborder="0" scrolling="no"></iframe>`
+      height: state.height,
+      html: toIframe({
+        url: params.url,
+        height: state.height,
+        width: state.width
+      })
     });
 };
 

@@ -6,6 +6,7 @@ import { InfoIcon, GitHubIcon, TwitterIcon, MediumIcon } from "./icons";
 import CodeEditor from "./LazyCodeEditor";
 import LanguagePicker from "./LanguagePicker";
 import { encode } from "./state-parser";
+import ShareButton from "./ShareButton";
 
 const req = require.context("prism-react-renderer/themes", false, /\.js$/);
 const themes = req
@@ -71,7 +72,7 @@ const RightOptions = ({ state, change }) => (
         ))}
       </select>
     </label>
-    <button>Share</button>
+    <ShareButton state={state} />
   </div>
 );
 
@@ -95,9 +96,10 @@ class Editor extends React.Component {
         <div
           style={{
             flex: 1,
+            // display: "flex",
+            display: "none",
             maxWidth: "625px",
             height: "100%",
-            display: "flex",
             flexDirection: "column"
           }}
         >
