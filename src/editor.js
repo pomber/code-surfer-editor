@@ -3,7 +3,7 @@ import "./App.css";
 import CodeSurferContainer from "./code-surfer-container";
 import { Prism } from "prism-react-renderer";
 import Color from "color";
-import { InfoIcon } from "./icons";
+import { InfoIcon, GitHubIcon, TwitterIcon, MediumIcon } from "./icons";
 import CodeEditor from "./LazyCodeEditor";
 
 const req = require.context("prism-react-renderer/themes", false, /\.js$/);
@@ -106,7 +106,7 @@ class Editor extends React.Component {
               alignItems: "center",
               width: "100%",
               padding: "0 10px",
-              height: "34px",
+              height: "39.5px",
               boxSizing: "border-box"
             }}
           >
@@ -190,6 +190,18 @@ class Editor extends React.Component {
               width={this.state.width}
               height={this.state.height}
             />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              bottom: 5,
+              right: 5,
+              color: Color("rgba(233, 237, 237, 1)").fade(0.4)
+            }}
+          >
+            <GitHubIcon style={{ padding: "4px", cursor: "pointer" }} />
+            <MediumIcon style={{ padding: "4px", cursor: "pointer" }} />
+            <TwitterIcon style={{ padding: "4px", cursor: "pointer" }} />
           </div>
         </div>
       </div>
