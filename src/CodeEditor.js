@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Controlled as CodeMirror } from "react-codemirror2";
+import { UnControlled as CodeMirror } from "react-codemirror2";
 import "codemirror/mode/javascript/javascript";
 
 import "codemirror/lib/codemirror.css";
@@ -17,9 +17,10 @@ class CodeEditor extends React.Component {
     const { value, onChange } = this.props;
     return (
       <CodeMirror
+        detach
         options={options}
         value={value}
-        onBeforeChange={(editor, data, newValue) => onChange(newValue)}
+        onChange={(editor, data, newValue) => onChange(newValue)}
       />
     );
   }
