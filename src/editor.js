@@ -105,18 +105,29 @@ class Editor extends React.Component {
             justifyContent: "center"
           }}
         >
-          <div style={{ flex: 1 }} />
-          <CodeSurferContainer
-            code={this.state.code}
-            showNumbers={this.state.showNumbers}
-            lang={this.state.lang}
-            theme={theme}
-            key={theme.name}
-            steps={this.state.steps}
-            width={this.state.width}
-            height={this.state.height}
-          />
-          <div style={{ flex: 1 }} />
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "8px",
+              width: "100%",
+              boxSizing: "border-box"
+            }}
+          >
+            <CodeSurferContainer
+              code={this.state.code}
+              showNumbers={this.state.showNumbers}
+              lang={this.state.lang}
+              theme={theme}
+              key={theme.name}
+              steps={this.state.steps}
+              width={this.state.width}
+              height={this.state.height}
+            />
+          </div>
+          {/* <div style={{ flex: 1 }} /> */}
           <div
             style={{
               display: "flex",
