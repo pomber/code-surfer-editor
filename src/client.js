@@ -1,6 +1,6 @@
 import Editor from "./editor";
 import React from "react";
-import { hydrate, unstable_createRoot } from "react-dom";
+import { unstable_createRoot } from "react-dom";
 import CodeSurferContainer from "./code-surfer-container";
 import { readStateFromPath } from "./state-parser";
 
