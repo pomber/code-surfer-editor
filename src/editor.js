@@ -96,8 +96,8 @@ class Editor extends React.Component {
         <div
           style={{
             flex: 1,
-            // display: "flex",
-            display: "none",
+            display: "flex",
+            // display: "none",
             maxWidth: "625px",
             height: "100%",
             flexDirection: "column"
@@ -155,16 +155,27 @@ class Editor extends React.Component {
               boxSizing: "border-box"
             }}
           >
-            <CodeSurferContainer
-              code={this.state.code}
-              showNumbers={this.state.showNumbers}
-              lang={this.state.lang}
-              theme={theme}
-              key={theme.name}
-              steps={this.state.steps}
-              width={this.state.width}
-              height={this.state.height}
-            />
+            <div
+              style={{
+                boxShadow: "rgba(0, 0, 0, 0.12) 0px 6px 5px 0px",
+                zIndex: 10,
+                maxHeight: this.state.height,
+                height: "100%",
+                width: "100%",
+                maxWidth: this.state.width
+              }}
+            >
+              <CodeSurferContainer
+                code={this.state.code}
+                showNumbers={this.state.showNumbers}
+                lang={this.state.lang}
+                theme={theme}
+                key={theme.name}
+                steps={this.state.steps}
+                width={this.state.width}
+                height={this.state.height}
+              />
+            </div>
           </div>
           <div
             style={{

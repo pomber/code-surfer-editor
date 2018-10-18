@@ -18,17 +18,12 @@ class CodeSurferContainer extends React.Component {
       <div
         style={{
           background: theme.plain.backgroundColor,
-          boxShadow: "rgba(0, 0, 0, 0.12) 0px 6px 5px 0px",
           border: `1px solid ${Color(theme.plain.color).fade(0.5)}`,
           borderRadius: "3px",
-          maxHeight: height,
-          height: "100%",
-          width: "100%",
-          maxWidth: width,
           display: "flex",
           flexDirection: "column",
           boxSizing: "border-box",
-          zIndex: 10
+          height: "100%"
         }}
       >
         <div

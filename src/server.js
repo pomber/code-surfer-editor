@@ -58,12 +58,31 @@ const getEditor = (req, res) => {
   res.status(200).send(html);
 };
 
+const testIframe = (req, res) => {
+  const stateHash = req.originalUrl.split("/").pop();
+  const state = JSON.parse(
+    LZString.decompressFromEncodedURIComponent(stateHash)
+  );
+  const protocolAndHost = req.protocol + "://" + req.get("host");
+  const fullUrl = protocolAndHost + req.originalUrl;
+  res.status(200).send(`
+  <div style="display: flex; align-items: center; justify-content: center; height: 100%">
+  ${toIframe({
+    url: fullUrl.replace("/ti/", "/i/"),
+    height: state.height,
+    width: state.width
+  })}
+  </div>
+  `);
+};
+
 const server = express();
 server
   .disable("x-powered-by")
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get("/oembed", getOembed)
   .get("/i/*", getCodeSurfer)
+  .get("/ti/*", testIframe)
   .get("/*", getEditor);
 
 export default server;
