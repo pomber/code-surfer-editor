@@ -50,12 +50,18 @@ const RightOptions = ({ state, change }) => (
       />
     </label>
     <label>
+      <input
+        type="checkbox"
+        checked={!state.autoHeight}
+        onChange={e => change({ autoHeight: !e.target.checked })}
+      />
       Height:
       <input
         type="number"
         style={{ width: "60px" }}
         value={state.height}
         step="10"
+        disabled={state.autoHeight}
         onChange={e => change({ height: +e.target.value })}
       />
     </label>
@@ -78,7 +84,21 @@ const RightOptions = ({ state, change }) => (
 
 class Editor extends React.Component {
   state = this.props.initialState;
-  change = updater => this.setState(updater, () => replace(this.state));
+  change = patch => {
+    this.setState(
+      prevState => {
+        const newState = Object.assign({}, prevState, patch);
+        if (newState.autoHeight) {
+          const loc = newState.code.split("\n").length;
+          const lineHeight = 15.5;
+          const extraHeight = 35.5;
+          patch.height = Math.ceil(loc * lineHeight + extraHeight);
+        }
+        return patch;
+      },
+      () => replace(this.state)
+    );
+  };
   render() {
     const change = this.change;
     const theme = themes.find(theme => theme.name === this.state.themeName);
@@ -152,7 +172,8 @@ class Editor extends React.Component {
               justifyContent: "center",
               padding: "8px",
               width: "100%",
-              boxSizing: "border-box"
+              boxSizing: "border-box",
+              overflow: "auto"
             }}
           >
             <div
@@ -172,8 +193,6 @@ class Editor extends React.Component {
                 theme={theme}
                 key={theme.name}
                 steps={this.state.steps}
-                width={this.state.width}
-                height={this.state.height}
               />
             </div>
           </div>

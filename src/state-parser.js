@@ -52,6 +52,7 @@ const defaultState = {
   themeName: "vsDarkPlus",
   steps: defaultSteps,
   width: 700,
-  height: 500,
+  autoHeight: true,
+  height: 392,
   version: "0.5.2" // TODO read from package.json
 };
