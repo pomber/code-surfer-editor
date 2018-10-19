@@ -204,15 +204,23 @@ class Editor extends React.Component {
               color: Color("rgba(233, 237, 237, 1)").fade(0.4)
             }}
           >
-            <GitHubIcon
-              title="CodeSurfer GitHub"
-              style={{ padding: "4px", cursor: "pointer" }}
-            />
+            <a
+              href="https://github.com/pomber/code-surfer-studio"
+              style={{ color: "unset" }}
+            >
+              <GitHubIcon
+                title="CodeSurfer GitHub"
+                style={{ padding: "4px", cursor: "pointer" }}
+              />
+            </a>
             <MediumIcon style={{ padding: "4px", cursor: "pointer" }} />
-            <TwitterIcon
-              title="@pomber twitter"
-              style={{ padding: "4px", cursor: "pointer" }}
-            />
+
+            <a href="https://twitter.com/pomber" style={{ color: "unset" }}>
+              <TwitterIcon
+                title="@pomber twitter"
+                style={{ padding: "4px", cursor: "pointer" }}
+              />
+            </a>
           </div>
         </div>
       </div>
