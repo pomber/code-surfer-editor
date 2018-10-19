@@ -134,6 +134,7 @@ class Editor extends React.Component {
             <CodeEditor
               value={this.state.code}
               onChange={code => change({ code })}
+              mode={this.state.lang}
             />
           </div>
           <div
@@ -150,6 +151,7 @@ class Editor extends React.Component {
             <CodeEditor
               value={this.state.steps}
               onChange={steps => change({ steps })}
+              mode="javascript"
             />
           </div>
         </div>
