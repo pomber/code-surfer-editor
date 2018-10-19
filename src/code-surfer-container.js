@@ -69,15 +69,25 @@ class CodeSurferContainer extends React.Component {
           }}
         >
           <span
-            onClick={() => this.setState({ index: this.state.index - 1 })}
-            style={{ cursor: "pointer", height: "16px" }}
+            onClick={this.prevStep}
+            style={{
+              cursor: "pointer",
+              height: "16px",
+              flex: 1,
+              textAlign: "left"
+            }}
           >
             {isFirstStep || <LeftArrow />}
           </span>
           <span>{notes}</span>
           <span
-            onClick={() => this.setState({ index: this.state.index + 1 })}
-            style={{ cursor: "pointer", height: "16px" }}
+            onClick={this.nextStep}
+            style={{
+              cursor: "pointer",
+              height: "16px",
+              flex: 1,
+              textAlign: "right"
+            }}
           >
             {isLastStep || <RightArrow />}
           </span>
