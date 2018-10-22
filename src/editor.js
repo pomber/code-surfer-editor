@@ -13,24 +13,36 @@ function replace(state) {
 
 class Editor extends React.Component {
   state = {
-    config: this.props.initialState
-    // editorCode: this.props.initialState.code,
-    // editorSteps: this.props.initialState.steps
+    ...this.props.initialState
   };
 
   change = patch => {
     this.setState(
       prevState => {
-        const newConfig = Object.assign({}, prevState.config, patch);
+        // debugger;
+        // let editorCode = undefined;
+        // if (patch.code != null) {
+        //   editorCode = patch.code;
+        //   delete patch.code;
+        //   // unstable_scheduleCallback(() =>
+        //   //   this.setState(({ prevConfig }) => ({
+        //   //     config: { ...prevConfig, code: editorCode }
+        //   //   }))
+        //   // );
+        // }
+
+        // console.log(patch);
+        const newConfig = Object.assign({}, prevState, patch);
         if (newConfig.autoHeight) {
           const loc = newConfig.code.split("\n").length;
           const lineHeight = 15.5;
           const extraHeight = 35.5;
-          newConfig.height = Math.ceil(loc * lineHeight + extraHeight);
+          patch.height = Math.ceil(loc * lineHeight + extraHeight);
         }
-        return { config: newConfig };
+
+        return patch;
       },
-      () => replace(this.state.config)
+      () => replace(this.state)
     );
   };
 
@@ -46,8 +58,8 @@ class Editor extends React.Component {
           color: "rgba(233, 237, 237, 1)"
         }}
       >
-        <LeftPanel config={this.state.config} change={this.change} />
-        <RightPanel config={this.state.config} change={this.change} />
+        <LeftPanel config={this.state} change={this.change} />
+        <RightPanel config={this.state} change={this.change} />
       </div>
     );
   }

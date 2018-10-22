@@ -2,6 +2,7 @@ import React from "react";
 import LanguagePicker from "./LanguagePicker";
 import CodeEditor from "./LazyCodeEditor";
 import { InfoIcon } from "./icons";
+import { unstable_scheduleCallback } from "scheduler";
 
 const LeftPanel = ({ config, change }) => (
   <div
@@ -21,7 +22,9 @@ const LeftPanel = ({ config, change }) => (
     <div style={{ flex: 1, overflow: "auto" }}>
       <CodeEditor
         value={config.code}
-        onChange={code => change({ code })}
+        onChange={code => {
+          change({ code });
+        }}
         mode={config.lang}
       />
     </div>
