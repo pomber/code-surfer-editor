@@ -1,4 +1,3 @@
-import App from "./app";
 import React from "react";
 import express from "express";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
@@ -6,7 +5,7 @@ import inline from "glamor/inline";
 import url from "url";
 import printHtml from "./page-template";
 import LZString from "lz-string";
-import Editor from "./editor";
+import Editor from "./Editor";
 import { readStateFromPath } from "./state-parser";
 import toIframe from "./to-iframe";
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);

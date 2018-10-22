@@ -2,7 +2,6 @@ import React from "react";
 import LanguagePicker from "./LanguagePicker";
 import CodeEditor from "./LazyCodeEditor";
 import { InfoIcon } from "./icons";
-import { unstable_scheduleCallback } from "scheduler";
 
 const LeftPanel = ({ config, change }) => (
   <div

@@ -1,5 +1,5 @@
 import React from "react";
-import CodeSurferContainer from "./code-surfer-container";
+import CodeSurferContainer from "./CodeSurferContainer";
 import { InfoIcon, GitHubIcon, TwitterIcon, MediumIcon } from "./icons";
 import ShareButton from "./ShareButton";
 import Color from "color";
