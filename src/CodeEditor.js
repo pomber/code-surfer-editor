@@ -1,12 +1,13 @@
 import React from "react";
 
-import { Controlled as CodeMirror } from "react-codemirror2";
+import { UnControlled as CodeMirror } from "react-codemirror2";
 import "codemirror/mode/javascript/javascript";
 
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 
 import { createResource } from "./cache";
+import withAsyncInput from "./utils/withAsyncInput";
 
 const options = {
   theme: "material",
@@ -24,12 +25,14 @@ class CodeEditor extends React.Component {
     modeLoader.read(mode);
     return (
       <CodeMirror
+        detach
         options={{ ...options, mode }}
         value={value}
-        onBeforeChange={(editor, data, newValue) => onChange(newValue)}
+        onChange={(editor, data, newValue) => onChange(newValue)}
+        key={mode}
       />
     );
   }
 }
 
-export default CodeEditor;
+export default withAsyncInput(CodeEditor);
