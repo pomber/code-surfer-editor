@@ -14,8 +14,8 @@ module.exports = {
 
     if (target === "web" && dev) {
       config.entry = {
-        editor: [resolveApp("src/client-editor")],
-        frame: [resolveApp("src/client-frame")]
+        editor: [resolveApp("src/editor.client")],
+        frame: [resolveApp("src/frame.client")]
       };
       config.output.filename = "static/js/[name].bundle.js";
     }

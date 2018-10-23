@@ -2,7 +2,7 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import inline from "glamor/inline";
 import { readStateFromPath } from "./state-parser";
-import Editor from "./Editor";
+import Editor from "./components/Editor";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -14,6 +14,7 @@ export function getEditor(request, response) {
   const markup = inline(renderToString(<Editor initialState={state} />));
   const protocolAndHost = request.protocol + "://" + request.get("host");
   const fullUrl = protocolAndHost + request.originalUrl;
+  //TODO move hardcoded styles to glamor or something
   response.status(200).send(
     `<!doctype html>
 <html lang="">
@@ -29,12 +30,22 @@ export function getEditor(request, response) {
     type="application/json+oembed" 
     title="Code Surfer oEmbed" />
   <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
     html,
     body,
     #root {
       height: 100%;
       padding: 0;
       margin: 0;
+    }
+    
+    .react-codemirror2,
+    .CodeMirror {
+      height: 100% !important;
     }
   </style>
   ${

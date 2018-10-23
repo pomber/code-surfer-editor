@@ -1,5 +1,5 @@
 import React from "react";
-import toIframe from "./to-iframe";
+import toIframe from "../to-iframe";
 
 const getShareableUrl = () => {
   return window.location.origin + "/i" + window.location.pathname;

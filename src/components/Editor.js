@@ -1,7 +1,6 @@
 import React from "react";
-import "./App.css";
 import Color from "color";
-import { encode } from "./state-parser";
+import { encode } from "../state-parser";
 import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
 

@@ -7,7 +7,7 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 
 import { createResource } from "./cache";
-import withAsyncInput from "./utils/withAsyncInput";
+import withAsyncInput from "../utils/withAsyncInput";
 
 const options = {
   theme: "material",
