@@ -1,7 +1,7 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
 import inline from "glamor/inline";
-import { readStateFromPath } from "./state-parser";
+import { readStateFromPath } from "./utils/state-parser";
 import Editor from "./components/Editor";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);

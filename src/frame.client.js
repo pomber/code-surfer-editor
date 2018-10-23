@@ -1,7 +1,7 @@
 import React from "react";
 import { unstable_createRoot } from "react-dom";
 import CodeSurferContainer from "./components/CodeSurferContainer";
-import { readStateFromPath } from "./state-parser";
+import { readStateFromPath } from "./utils/state-parser";
 
 const req = require.context("prism-react-renderer/themes", false, /\.js$/);
 const themes = req

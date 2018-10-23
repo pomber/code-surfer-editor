@@ -1,6 +1,6 @@
 import url from "url";
-import { readStateFromPath } from "./state-parser";
-import toIframe from "./to-iframe";
+import { readStateFromPath } from "./utils/state-parser";
+import toIframe from "./utils/to-iframe";
 
 export function getOembed() {
   const params = url.parse(request.url, true).query || { url: "" };

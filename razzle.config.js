@@ -5,6 +5,7 @@ const path = require("path");
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const appSrc = resolveApp("src");
 
 module.exports = {
   modify: (config, { target, dev }, webpack) => {
