@@ -21,14 +21,12 @@ export default (protocolAndHost, url, markup, assets) => `<!doctype html>
     }
   </style>
   ${
-    assets.client.css
-      ? `<link rel="stylesheet" href="${assets.client.css}">`
-      : ""
+    assets.frame.css ? `<link rel="stylesheet" href="${assets.frame.css}">` : ""
   }
   ${
     process.env.NODE_ENV === "production"
-      ? `<script src="${assets.client.js}" defer></script>`
-      : `<script src="${assets.client.js}" defer crossorigin></script>`
+      ? `<script src="${assets.frame.js}" defer></script>`
+      : `<script src="${assets.frame.js}" defer crossorigin></script>`
   }
 </head>
 

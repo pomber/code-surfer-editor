@@ -127,7 +127,7 @@ const RightPanel = ({ config, change }) => {
         }}
       >
         <a
-          href="https://github.com/pomber/code-surfer-studio"
+          href="https://github.com/pomber/code-surfer-editor"
           style={{ color: "unset" }}
         >
           <GitHubIcon

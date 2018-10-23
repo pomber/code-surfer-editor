@@ -12,7 +12,7 @@ const copyToClipboard = text => {
 class SharePanel extends React.Component {
   render() {
     const oembedUrl = getShareableUrl();
-    const { height, width } = this.props.state;
+    const { height, width } = this.props.config;
     const iframe = toIframe({ url: oembedUrl, height, width });
     return (
       <div
