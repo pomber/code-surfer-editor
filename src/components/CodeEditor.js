@@ -15,9 +15,14 @@ const options = {
   mode: "javascript"
 };
 
-const modeLoader = createResource(mode =>
-  import(`codemirror/mode/${mode}/${mode}`)
-);
+const modeLoader = createResource(async mode => {
+  try {
+    return await import(`codemirror/mode/${mode}/${mode}`);
+  } catch (error) {
+    console.error("Error loading CodeMirror mode", error);
+    return await import(`codemirror/mode/javascript/javascript`);
+  }
+});
 
 class CodeEditor extends React.Component {
   render() {
