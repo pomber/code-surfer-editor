@@ -4,6 +4,7 @@ COPY package.json yarn.lock /usr/src/
 COPY lib /usr/src/lib	
 RUN yarn --production
 COPY . .
+RUN ls
 RUN yarn build
 
 FROM mhart/alpine-node:base-10
