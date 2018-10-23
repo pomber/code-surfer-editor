@@ -2,11 +2,31 @@ import React from "react";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import inline from "glamor/inline";
 import { readStateFromPath } from "./utils/state-parser";
-// import CodeSurferContainer from './CodeSurferContainer'
+import CodeSurferContainer from "./components/CodeSurferContainer";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
+const req = require.context("prism-react-renderer/themes", false, /\.js$/);
+const themes = req
+  .keys()
+  .map(filename => ({ ...req(filename), name: filename.slice(2, -3) }));
+
 export function getFrame(request, response) {
+  const state = readStateFromPath(request.originalUrl);
+  const theme = themes.find(theme => theme.name === state.themeName);
+  const markup = inline(
+    renderToString(
+      <CodeSurferContainer
+        code={state.code}
+        showNumbers={state.showNumbers}
+        lang={state.lang}
+        theme={theme}
+        steps={state.steps}
+        width={state.width}
+        height={state.height}
+      />
+    )
+  );
   const protocolAndHost = request.protocol + "://" + request.get("host");
   const fullUrl = protocolAndHost + request.originalUrl;
   response.status(200).send(`<!doctype html>
@@ -37,11 +57,6 @@ export function getFrame(request, response) {
       }
     </style>
     ${
-      assets.frame.css
-        ? `<link rel="stylesheet" href="${assets.frame.css}">`
-        : ""
-    }
-    ${
       process.env.NODE_ENV === "production"
         ? `<script src="${assets.frame.js}" defer></script>`
         : `<script src="${assets.frame.js}" defer crossorigin></script>`
@@ -49,7 +64,7 @@ export function getFrame(request, response) {
   </head>
   
   <body>
-    <div id="root">${""}</div>
+    <div id="root">${markup}</div>
   </body>
   
   </html>`);

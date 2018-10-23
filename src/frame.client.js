@@ -20,7 +20,6 @@ const app = (
     showNumbers={state.showNumbers}
     lang={state.lang}
     theme={theme}
-    key={theme.name}
     steps={state.steps}
     width={state.width}
     height={state.height}

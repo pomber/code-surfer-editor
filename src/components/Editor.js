@@ -18,19 +18,6 @@ class Editor extends React.Component {
   change = patch => {
     this.setState(
       prevState => {
-        // debugger;
-        // let editorCode = undefined;
-        // if (patch.code != null) {
-        //   editorCode = patch.code;
-        //   delete patch.code;
-        //   // unstable_scheduleCallback(() =>
-        //   //   this.setState(({ prevConfig }) => ({
-        //   //     config: { ...prevConfig, code: editorCode }
-        //   //   }))
-        //   // );
-        // }
-
-        // console.log(patch);
         const newConfig = Object.assign({}, prevState, patch);
         if (newConfig.autoHeight) {
           const loc = newConfig.code.split("\n").length;

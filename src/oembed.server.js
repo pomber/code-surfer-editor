@@ -2,7 +2,7 @@ import url from "url";
 import { readStateFromPath } from "./utils/state-parser";
 import toIframe from "./utils/to-iframe";
 
-export function getOembed() {
+export function getOembed(request, response) {
   const params = url.parse(request.url, true).query || { url: "" };
   const state = readStateFromPath(params.url);
 
