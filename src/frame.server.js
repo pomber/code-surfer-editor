@@ -2,6 +2,7 @@ import React from "react";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import inline from "glamor/inline";
 import { readStateFromPath } from "./utils/state-parser";
+import { getProtocolAndHost } from "./utils/urlUtils";
 import CodeSurferContainer from "./components/CodeSurferContainer";
 import * as html from "./html-parts";
 
@@ -28,7 +29,7 @@ export function getFrame(request, response) {
       />
     )
   );
-  const protocolAndHost = request.protocol + "://" + request.get("host");
+  const protocolAndHost = getProtocolAndHost(request);
   const fullUrl = protocolAndHost + request.originalUrl;
 
   const content = `

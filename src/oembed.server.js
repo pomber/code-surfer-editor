@@ -1,5 +1,6 @@
 import url from "url";
 import { readStateFromPath } from "./utils/state-parser";
+import { getProtocolAndHost } from "./utils/urlUtils";
 import toIframe from "./utils/to-iframe";
 
 export function getOembed(request, response) {
@@ -27,7 +28,7 @@ export function getOembed(request, response) {
 
 export function getIframeTest(request, response) {
   const state = readStateFromPath(request.originalUrl);
-  const protocolAndHost = request.protocol + "://" + request.get("host");
+  const protocolAndHost = getProtocolAndHost(request);
   const fullUrl = (protocolAndHost + request.originalUrl).replace(
     "/ti/",
     "/i/"

@@ -2,6 +2,7 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import inline from "glamor/inline";
 import { readStateFromPath } from "./utils/state-parser";
+import { getProtocolAndHost } from "./utils/urlUtils";
 import Editor from "./components/Editor";
 import * as html from "./html-parts";
 
@@ -13,7 +14,7 @@ export function getEditor(request, response) {
   const state = readStateFromPath(request.originalUrl);
   //TODO put styles in head
   const markup = inline(renderToString(<Editor initialState={state} />));
-  const protocolAndHost = request.protocol + "://" + request.get("host");
+  const protocolAndHost = getProtocolAndHost(request);
   const fullUrl = protocolAndHost + request.originalUrl;
 
   const content = `
