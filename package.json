@@ -22,9 +22,7 @@
     "react-cache": "^16.6.0-alpha.8af6728",
     "react-codemirror2": "^5.1.0",
     "react-dom": "./lib/react-dom",
-    "scheduler": "^0.10.0-alpha.8af6728"
-  },
-  "devDependencies": {
+    "scheduler": "^0.10.0-alpha.8af6728",
     "webpack-bundle-analyzer": "^3.0.3"
   }
 }

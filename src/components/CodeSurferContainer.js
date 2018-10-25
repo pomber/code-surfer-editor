@@ -7,10 +7,15 @@ class CodeSurferContainer extends React.Component {
   state = {
     index: 0
   };
+
+  prevStep = () =>
+    this.setState(({ index }) => ({ index: Math.max(index - 1, 0) }));
+  nextStep = () => this.setState(({ index }) => ({ index: index + 1 }));
+
   render() {
     const { code, showNumbers, lang, theme, steps, width, height } = this.props;
-    const { index } = this.state;
     const stepList = steps.split("\n");
+    const index = Math.min(this.state.index, stepList.length - 1);
     const isFirstStep = index === 0;
     const isLastStep = index === stepList.length - 1;
     const [step, notes] = stepList[index].split(">");
@@ -24,6 +29,17 @@ class CodeSurferContainer extends React.Component {
           flexDirection: "column",
           boxSizing: "border-box",
           height: "100%"
+        }}
+        tabIndex="0"
+        onKeyDown={e => {
+          if (e.keyCode === 37) {
+            this.prevStep();
+            e.preventDefault();
+          }
+          if (e.keyCode === 39) {
+            this.nextStep();
+            e.preventDefault();
+          }
         }}
       >
         <div
@@ -53,15 +69,25 @@ class CodeSurferContainer extends React.Component {
           }}
         >
           <span
-            onClick={() => this.setState({ index: this.state.index - 1 })}
-            style={{ cursor: "pointer", height: "16px" }}
+            onClick={this.prevStep}
+            style={{
+              cursor: "pointer",
+              height: "16px",
+              flex: 1,
+              textAlign: "left"
+            }}
           >
             {isFirstStep || <LeftArrow />}
           </span>
           <span>{notes}</span>
           <span
-            onClick={() => this.setState({ index: this.state.index + 1 })}
-            style={{ cursor: "pointer", height: "16px" }}
+            onClick={this.nextStep}
+            style={{
+              cursor: "pointer",
+              height: "16px",
+              flex: 1,
+              textAlign: "right"
+            }}
           >
             {isLastStep || <RightArrow />}
           </span>

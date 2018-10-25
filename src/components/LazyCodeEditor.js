@@ -1,5 +1,4 @@
 import React, { lazy, unstable_Suspense as Suspense } from "react";
-import { unstable_scheduleCallback } from "scheduler";
 
 const CodeEditor = lazy(() => import("./CodeEditor"));
 const Fallback = props => (
@@ -14,9 +13,7 @@ const Fallback = props => (
       resize: "none"
     }}
     value={props.value}
-    onChange={e =>
-      unstable_scheduleCallback(() => props.onChange(e.target.value))
-    }
+    onChange={e => props.change(e.target.value)}
   />
 );
 
