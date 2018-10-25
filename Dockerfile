@@ -2,7 +2,7 @@ FROM mhart/alpine-node:10 as base
 WORKDIR /usr/src
 COPY package.json yarn.lock /usr/src/
 COPY lib /usr/src/lib	
-RUN yarn 
+RUN yarn --production
 COPY . .
 RUN ls
 RUN yarn build

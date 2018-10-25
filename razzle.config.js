@@ -12,7 +12,7 @@ module.exports = {
   modify: (config, { target, dev }, webpack) => {
     console.log("Running ", dev, target);
     if (target === "web" && !dev) {
-      config.plugins.push(new BundleAnalyzerPlugin({ analyzerPort: 4000 }));
+      config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: "static" }));
     }
     if (target === "web" && dev) {
       config.entry = {
