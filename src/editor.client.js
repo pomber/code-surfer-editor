@@ -1,9 +1,9 @@
 import React from "react";
-import { unstable_createRoot } from "react-dom";
+import { unstable_createRoot as createRoot } from "react-dom";
 import { readStateFromPath } from "./utils/state-parser";
 import Editor from "./components/Editor";
 
-const root = unstable_createRoot(document.getElementById("root"), {
+const root = createRoot(document.getElementById("root"), {
   hydrate: true
 });
 
