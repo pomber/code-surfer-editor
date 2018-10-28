@@ -1,6 +1,6 @@
 import React from "react";
 import LanguagePicker from "./LanguagePicker";
-import CodeEditor from "./LazyCodeEditor";
+import CodeEditor from "../utils/CodeMirror";
 import { InfoIcon } from "./icons";
 
 const LeftPanel = ({ config, change }) => (
