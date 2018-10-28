@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function useToggle(defaultState = false) {
   const [state, setState] = useState(defaultState);
@@ -13,4 +13,15 @@ export function useBoundedCounter({ defaultValue, minValue, maxValue }) {
   const dec = () =>
     setCounter(prev => (prev <= minValue ? minValue : prev - 1));
   return [counter, dec, inc];
+}
+
+export function useReplaceUrlPath(pathname) {
+  useEffect(
+    () => {
+      const url = new URL(window.location);
+      url.pathname = pathname;
+      window.history.replaceState(null, null, url);
+    },
+    [pathname]
+  );
 }
