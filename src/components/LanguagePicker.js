@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Prism } from "prism-react-renderer";
 
 const languages = Object.keys(Prism.languages)
@@ -17,4 +17,4 @@ const LanguagePicker = ({ value, onChange }) => (
   </select>
 );
 
-export default LanguagePicker;
+export default memo(LanguagePicker);
