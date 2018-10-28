@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Color from "color";
 import { encode } from "../utils/state-parser";
 import LeftPanel from "./LeftPanel";
