@@ -1,4 +1,4 @@
-import React, { lazy, unstable_Suspense as Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 
 const CodeEditor = lazy(() => import("./CodeEditor"));
 const Fallback = props => (

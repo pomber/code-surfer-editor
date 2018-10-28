@@ -2,7 +2,7 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import inline from "glamor/inline";
 import { readStateFromPath } from "./utils/state-parser";
-import { getProtocolAndHost } from "./utils/urlUtils";
+import { getProtocolAndHost } from "./utils/url-utils";
 import Editor from "./components/Editor";
 import * as html from "./html-parts";
 
