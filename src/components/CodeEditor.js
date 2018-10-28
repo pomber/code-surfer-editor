@@ -24,20 +24,18 @@ const modeLoader = createResource(async mode => {
   }
 });
 
-class CodeEditor extends React.Component {
-  render() {
-    const { value, onChange, mode } = this.props;
-    modeLoader.read(mode);
-    return (
-      <CodeMirror
-        detach
-        options={{ ...options, mode }}
-        value={value}
-        onChange={(editor, data, newValue) => onChange(newValue)}
-        key={mode}
-      />
-    );
-  }
+function CodeEditor(props) {
+  const { value, onChange, mode } = props;
+  modeLoader.read(mode);
+  return (
+    <CodeMirror
+      detach
+      options={{ ...options, mode }}
+      value={value}
+      onChange={(editor, data, newValue) => onChange(newValue)}
+      key={mode}
+    />
+  );
 }
 
 export default withAsyncInput(CodeEditor);
