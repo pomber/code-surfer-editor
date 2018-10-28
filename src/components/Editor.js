@@ -10,7 +10,6 @@ import { replacePath } from "../utils/url-utils";
 function Editor({ initialState }) {
   const [config, change] = useEditorState(initialState);
   useIdleEffect(() => {
-    console.log("updating path");
     replacePath(encode(config));
   });
   return (
