@@ -1,4 +1,10 @@
 import { useState, useEffect } from "react";
+import {
+  unstable_IdlePriority as IdlePriority,
+  unstable_runWithPriority as runWithPriority,
+  unstable_scheduleCallback as scheduleCallback,
+  unstable_cancelCallback as cancelCallback
+} from "scheduler";
 
 export function useToggle(defaultState = false) {
   const [state, setState] = useState(defaultState);
@@ -15,13 +21,12 @@ export function useBoundedCounter({ defaultValue, minValue, maxValue }) {
   return [counter, dec, inc];
 }
 
-export function useReplaceUrlPath(pathname) {
-  useEffect(
-    () => {
-      const url = new URL(window.location);
-      url.pathname = pathname;
-      window.history.replaceState(null, null, url);
-    },
-    [pathname]
-  );
+export function useIdleEffect(effect, input) {
+  return useEffect(() => {
+    let cbNode;
+    runWithPriority(IdlePriority, () => {
+      cbNode = scheduleCallback(effect);
+    });
+    return () => cancelCallback(cbNode);
+  }, input);
 }

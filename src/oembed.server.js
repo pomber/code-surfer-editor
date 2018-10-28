@@ -1,6 +1,6 @@
 import url from "url";
 import { readStateFromPath } from "./utils/state-parser";
-import { getProtocolAndHost } from "./utils/urlUtils";
+import { getProtocolAndHost } from "./utils/url-utils";
 import toIframe from "./utils/to-iframe";
 
 export function getOembed(request, response) {

@@ -4,11 +4,15 @@ import { encode } from "../utils/state-parser";
 import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
 import { useEditorState } from "./editor-state";
-import { useReplaceUrlPath } from "../utils/hooks";
+import { useIdleEffect } from "../utils/hooks";
+import { replacePath } from "../utils/url-utils";
 
 function Editor({ initialState }) {
   const [config, change] = useEditorState(initialState);
-  useReplaceUrlPath(encode(config));
+  useIdleEffect(() => {
+    console.log("updating path");
+    replacePath(encode(config));
+  });
   return (
     <div
       style={{
