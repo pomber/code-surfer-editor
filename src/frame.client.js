@@ -1,5 +1,5 @@
 import React from "react";
-import { unstable_createRoot } from "react-dom";
+import { createRoot } from "react-dom";
 import CodeSurferContainer from "./components/CodeSurferContainer";
 import { readStateFromPath } from "./utils/state-parser";
 
@@ -8,7 +8,7 @@ const themes = req
   .keys()
   .map(filename => ({ ...req(filename), name: filename.slice(2, -3) }));
 
-const root = unstable_createRoot(document.getElementById("root"), {
+const root = createRoot(document.getElementById("root"), {
   hydrate: true
 });
 
