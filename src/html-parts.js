@@ -41,7 +41,6 @@ export function style() {
       padding: 0;
       margin: 0;
     }
-    .react-codemirror2,
     .CodeMirror {
       height: 100% !important;
     }

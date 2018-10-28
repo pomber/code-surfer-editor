@@ -1,11 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/material.css";
-import "codemirror/mode/javascript/javascript";
-import codemirror from "codemirror";
-
-// import { unstable_createResource as createResource } from "react-cache";
+let codeMirrorPromise = null;
+if (typeof navigator !== "undefined") {
+  // Only for client-side
+  codeMirrorPromise = Promise.all([
+    import("codemirror"),
+    import("codemirror/lib/codemirror.css"),
+    import("codemirror/theme/material.css")
+  ]).then(([codemirror]) => codemirror.default);
+}
 
 async function loadMode(mode) {
   try {
@@ -18,8 +21,6 @@ async function loadMode(mode) {
   }
 }
 
-// const modeLoader = createResource(loadMode);
-
 const options = {
   theme: "material",
   lineNumbers: true
@@ -27,27 +28,31 @@ const options = {
 
 function CodeMirror({ value, onChange, mode }) {
   const textAreaRef = useRef();
-  const codeMirrorRef = useRef();
+  const [codeMirror, setCodeMirror] = useState();
 
   // onMount
   useEffect(() => {
-    codeMirrorRef.current = codemirror.fromTextArea(textAreaRef.current, {
-      ...options,
-      mode
+    codeMirrorPromise.then(codemirror => {
+      const newCodeMirror = codemirror.fromTextArea(textAreaRef.current, {
+        ...options,
+        mode
+      });
+      newCodeMirror.setValue(value);
+      setCodeMirror(newCodeMirror);
     });
   }, []);
 
   // when the prop onChange changes
   useEffect(
     () => {
-      if (!codeMirrorRef.current) return;
+      if (!codeMirror) return;
       const handler = (cm, change) => {
         onChange(cm.getValue());
       };
-      codeMirrorRef.current.on("change", handler);
-      return () => codeMirrorRef.current.off("change", handler);
+      codeMirror.on("change", handler);
+      return () => codeMirror.off("change", handler);
     },
-    [onChange, codeMirrorRef.current]
+    [onChange, codeMirror]
   );
 
   // when the prop mode changes
@@ -55,18 +60,32 @@ function CodeMirror({ value, onChange, mode }) {
     () => {
       //TODO cancel previous promise
       loadMode(mode).then(
-        mode =>
-          codeMirrorRef.current && codeMirrorRef.current.setOption("mode", mode)
+        mode => codeMirror && codeMirror.setOption("mode", mode)
       );
     },
-    [mode, codeMirrorRef.current]
+    [mode, codeMirror]
   );
 
   // TODO
   // when the prop value changes
   // useEffect(() => {}, [value]);
 
-  return <textarea ref={textAreaRef} value={value} onChange={onChange} />;
+  return (
+    <textarea
+      ref={textAreaRef}
+      value={"Loading..."}
+      readOnly
+      style={{
+        height: "97%",
+        width: "100%",
+        boxSizing: "border-box",
+        border: "0px",
+        background: "#263238",
+        color: "rgba(233, 237, 237, 0.5)",
+        resize: "none"
+      }}
+    />
+  );
 }
 
 export default CodeMirror;
