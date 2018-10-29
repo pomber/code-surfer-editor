@@ -41,7 +41,7 @@ const LeftPanel = ({ config, change }) => (
       <CodeEditor
         value={config.steps}
         onChange={steps => change({ steps })}
-        mode="javascript"
+        mode="jsx"
       />
     </div>
   </div>

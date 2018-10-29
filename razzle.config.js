@@ -19,7 +19,7 @@ module.exports = {
         editor: [resolveApp("src/editor.client")],
         frame: [resolveApp("src/frame.client")]
       };
-      config.output.filename = "styatic/js/[name].bundle.js";
+      config.output.filename = "static/js/[name].bundle.js";
     } else if (target === "web" && !dev) {
       config.entry = {
         editor: [resolveApp("src/editor.client")],

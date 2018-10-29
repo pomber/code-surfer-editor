@@ -4,20 +4,21 @@ let codeMirrorPromise = null;
 if (typeof navigator !== "undefined") {
   // Only for client-side
   codeMirrorPromise = Promise.all([
-    import("codemirror"),
-    import("codemirror/lib/codemirror.css"),
-    import("codemirror/theme/material.css")
+    import(/* webpackPreload: true */ /* webpackChunkName: "codemirror-lib" */ "codemirror"),
+    import(/* webpackPreload: true */ /* webpackChunkName: "codemirror-css" */ "codemirror/lib/codemirror.css"),
+    import(/* webpackPreload: true */ /* webpackChunkName: "codemirror-theme" */ "codemirror/theme/material.css")
   ]).then(([codemirror]) => codemirror.default);
 }
 
 async function loadMode(mode) {
   try {
-    await import(`codemirror/mode/${mode}/${mode}`);
+    await import(/* webpackChunkName: "codemirror-[request]" */ `codemirror/mode/${mode}/${mode}.js`);
     return mode;
   } catch (error) {
     console.error("Error loading CodeMirror mode", error);
-    await import(`codemirror/mode/javascript/javascript`);
-    return "javascript";
+    mode = "jsx";
+    await import(/* webpackChunkName: "codemirror-[request]" */ `codemirror/mode/${mode}/${mode}`);
+    return mode;
   }
 }
 
