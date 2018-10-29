@@ -22,11 +22,13 @@ export function getEditor(request, response) {
   <html lang="">
   <head>
     ${html.headContent()}
+    ${html.script(assets.editor.js)}
     ${html.oembedLink(protocolAndHost, fullUrl)}
     ${html.style()}
-    ${html.script(assets.editor.js)}
   </head>
+  <body>
   ${html.body(markup)}
+  </body>
   </html>
   `.trim();
 

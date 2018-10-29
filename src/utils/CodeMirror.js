@@ -3,11 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 let codeMirrorPromise = null;
 if (typeof navigator !== "undefined") {
   // Only for client-side
-  codeMirrorPromise = Promise.all([
-    import(/* webpackPreload: true */ /* webpackChunkName: "codemirror-lib" */ "codemirror"),
-    import(/* webpackPreload: true */ /* webpackChunkName: "codemirror-css" */ "codemirror/lib/codemirror.css"),
-    import(/* webpackPreload: true */ /* webpackChunkName: "codemirror-theme" */ "codemirror/theme/material.css")
-  ]).then(([codemirror]) => codemirror.default);
+  codeMirrorPromise = import(/* webpackChunkName: "codemirror" */ "./codemirror.assets").then(
+    cmModule => cmModule.default
+  );
 }
 
 async function loadMode(mode) {
