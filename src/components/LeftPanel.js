@@ -1,6 +1,6 @@
 import React from "react";
 import LanguagePicker from "./LanguagePicker";
-import CodeEditor from "./LazyCodeEditor";
+import CodeEditor from "../utils/CodeMirror";
 import { InfoIcon } from "./icons";
 
 const LeftPanel = ({ config, change }) => (
@@ -41,7 +41,7 @@ const LeftPanel = ({ config, change }) => (
       <CodeEditor
         value={config.steps}
         onChange={steps => change({ steps })}
-        mode="javascript"
+        mode="jsx"
       />
     </div>
   </div>

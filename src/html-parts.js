@@ -17,11 +17,16 @@ export function oembedLink(protocolAndHost, url) {
   `.trim();
 }
 
+export function preloadScripts(srcs) {
+  return srcs
+    .map(src => `<link rel="preload" href="${src}" as="script">`)
+    .join("\n")
+    .trim();
+}
+
 export function body(markup) {
   return `
-  <body>
     <div id="root">${markup}</div>
-  </body>
   `.trim();
 }
 
@@ -41,7 +46,6 @@ export function style() {
       padding: 0;
       margin: 0;
     }
-    .react-codemirror2,
     .CodeMirror {
       height: 100% !important;
     }

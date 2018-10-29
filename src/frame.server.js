@@ -41,7 +41,9 @@ export function getFrame(request, response) {
     ${html.style()}
     ${html.script(assets.frame.js)}
   </head>
+  <body>
   ${html.body(markup)}
+  </body>
   </html>
   `.trim();
 

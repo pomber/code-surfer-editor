@@ -18,12 +18,14 @@ module.exports = {
       config.entry = {
         editor: [resolveApp("src/editor.client")],
         frame: [resolveApp("src/frame.client")]
+        // codemirror: [resolveApp("src/utils/codemirror.assets")]
       };
-      config.output.filename = "styatic/js/[name].bundle.js";
+      config.output.filename = "static/js/[name].bundle.js";
     } else if (target === "web" && !dev) {
       config.entry = {
         editor: [resolveApp("src/editor.client")],
         frame: [resolveApp("src/frame.client")]
+        // codemirror: [resolveApp("src/utils/codemirror.assets")]
       };
       config.output.filename = "static/js/[name].bundle.[chunkhash:8].js";
     }

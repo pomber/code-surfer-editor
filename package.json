@@ -20,7 +20,6 @@
     "razzle": "^2.4.0",
     "react": "^16.7.0-alpha.0",
     "react-cache": "^2.0.0-alpha.0",
-    "react-codemirror2": "^5.1.0",
     "react-dom": "./lib/react-dom",
     "scheduler": "^0.11.0-alpha.0",
     "webpack-bundle-analyzer": "^3.0.3"
