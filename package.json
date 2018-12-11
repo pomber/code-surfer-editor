@@ -10,13 +10,17 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
+    "@octokit/rest": "^16.2.0",
+    "atob": "^2.1.2",
     "code-surfer": "0.5.3",
     "codemirror": "^5.40.2",
     "color": "^3.1.0",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "lz-string": "^1.4.4",
     "memoize-one": "^4.0.2",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^2.3.0",
     "razzle": "^2.4.0",
     "react": "^16.7.0-alpha.0",
     "react-cache": "^2.0.0-alpha.0",

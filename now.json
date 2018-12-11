@@ -4,5 +4,8 @@
   "type": "docker",
   "features": {
     "cloud": "v2"
+  },
+  "env": {
+    "GH_JWT": "@gh-jwt"
   }
 }
